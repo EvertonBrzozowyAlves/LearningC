@@ -16,4 +16,8 @@ gcc Program.c -o Program<.exe>
 ```
 >No Windows, podemos usar a extensão .exe. No Linux, podemos usar uma extesão diferente do arquivo original, apenas para facilitar a vida.
 
+Executando:
+```shell
+./guessing.out
+```
 Comentários são adicionados com **//**.
