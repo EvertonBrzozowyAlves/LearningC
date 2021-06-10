@@ -13,7 +13,27 @@ int main()
 
     int guessNumber;
 
-    printf("Guess a number: \n");
+    printf("Guess a number:");
     scanf("%d", &guessNumber);
     printf("Your thinking on number %d. Let's see... \n", guessNumber);
+
+    int guessed = (guessNumber == secretNumber); //0 => false, 1 => true
+
+    if (guessed)
+    {
+        printf("You got it right! Congratulations. You won the game!!\n");
+        printf("Play again, you're a good player!!\n");
+    }
+    else
+    {
+        int guessIsHigherThanSecretNumber = guessNumber > secretNumber;
+        if (guessIsHigherThanSecretNumber)
+        {
+            printf("Your guess is higher than the secret number!\n");
+        }
+        else
+        {
+            printf("Your guess is lower than the secret number!\n");
+        }
+    }
 }

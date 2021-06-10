@@ -21,3 +21,5 @@ Executando:
 ./guessing.out
 ```
 Comentários são adicionados com **//**.
+
+Em C, booleanos são do tipo int: 0 para false e 1 para true.
