@@ -32,3 +32,15 @@ Sintaxe do for:
         //code here
     }
 ```
+
+Declaramos constantes em C da seguinte forma:
+
+```C
+#include <stdio.h>
+
+#define NUMBER_OF_TRIES 3 //constante
+
+int main(){
+    //...
+}
+```

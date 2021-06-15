@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+// #define NUMBER_OF_TRIES 3
+
 int main()
 {
     //this is a comment
@@ -10,37 +12,49 @@ int main()
     int secretNumber = 42;
 
     // printf("The secret number is %d, keep it secret!\n", secretNumber);
-    int chances = 3;
+    // int chances = 3;
     int guessNumber;
+    int tries = 1;
+    // for (int i = 1; i <= NUMBER_OF_TRIES; i++)
 
-    for (int i = 1; i <= chances; i++)
+    while (1)
     {
-        printf("%d of %d tries\n", i, chances);
-        printf("Guess a number:");
+        printf("This is yout try number: %d\n", tries);
+        printf("Guess a number: ");
         scanf("%d", &guessNumber);
         printf("Your thinking on number %d. Let's see... \n", guessNumber);
 
+        if (guessNumber < 0)
+        {
+            printf("Negative numbers are not allowed!\n");
+            continue;
+        }
+
         int guessed = (guessNumber == secretNumber); //0 => false, 1 => true
+        int greater = guessNumber > secretNumber;
 
         if (guessed)
         {
-            printf("You got it right! Congratulations. You won the game!!\n");
-            printf("Play again, you're a good player!!\n");
             break;
+        }
+        else if (greater)
+        {
+            printf("Your guess is higher than the secret number!\n");
         }
         else
         {
-            int guessIsHigherThanSecretNumber = guessNumber > secretNumber;
-            if (guessIsHigherThanSecretNumber)
-            {
-                printf("Your guess is higher than the secret number!\n");
-            }
-            else
-            {
-                printf("Your guess is lower than the secret number!\n");
-            }
+            printf("Your guess is lower than the secret number!\n");
         }
         printf("\n");
+        tries++;
     }
     printf("Game over!\n");
+    if (tries == 1)
+    {
+        printf("You beat the game in one try! You're awesome!\n");
+    }
+    else
+    {
+        printf("You took %d tries to beat the game!\n", tries);
+    }
 }
