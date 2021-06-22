@@ -15,6 +15,8 @@ int main()
     // int chances = 3;
     int guessNumber;
     int tries = 1;
+    int points = 1000;
+
     // for (int i = 1; i <= NUMBER_OF_TRIES; i++)
 
     while (1)
@@ -47,6 +49,9 @@ int main()
         }
         printf("\n");
         tries++;
+
+        int lostPoints = (guessNumber - secretNumber) / 2;
+        points -= lostPoints;
     }
     printf("Game over!\n");
     if (tries == 1)
@@ -57,4 +62,5 @@ int main()
     {
         printf("You took %d tries to beat the game!\n", tries);
     }
+    printf("Final points: %d!\n", points);
 }
