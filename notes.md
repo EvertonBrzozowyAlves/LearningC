@@ -44,3 +44,26 @@ int main(){
     //...
 }
 ```
+
+Em C, o compilador não gera erro ao utilizar uma variável que não foi utilizada.  
+Sempre utilize variáveis inicializadas com valor.  
+Quando se utiliza uma variável que não foi inicializada, não sabemos qual valor conterá nela.  
+Isso depende um pouco do compilador utilizado.  
+Em alguns casos, pode acontecer de ser impresso um valor que é resultado da 'sujeira' de um programa anterior.  
+
+Podemos utilizar interpolação de strings com uma marcação que indica o tipo da variável e sua respectiva varíavel como parâmetro:
+
+```C
+printf("You took %d tries to beat the game!\n", tries); //cada variável possui um tipo
+printf("Final points: %f!\n", points);
+```
+
+## Tipos 
+
+| Tipo      | Bytes    | Bits          | Valor  |
+| :-:       | :-:      | :-:           | :-:    |
+| Short     | 2 bytes  | 16 bits       | 2^16   |
+| Int       | 4 bytes  | 32 bits       | 2^32   |
+| Long      | 8 bytes  | 64 bits       | 2^64   |
+| Float     | 4 bytes  | 32 bits       | 2^32   |
+| Double    | 8 bytes  | 64 bits       | 2^64   |
