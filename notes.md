@@ -10,6 +10,8 @@ int main()
 }
 ```
 
+Esses arquivos que importamos com extesão .h são chamados de header files.
+
 Compilando:
 ```shell
 gcc Program.c -o Program<.exe>
@@ -58,6 +60,12 @@ printf("You took %d tries to beat the game!\n", tries); //cada variável possui 
 printf("Final points: %f!\n", points);
 ```
 
+Podemos fazer casting informando o tipo desejado na frente davariável.
+```C
+double value = (double)2; 
+```
+>Em C, não há restrição e podemos transformar um tipo que cabe mais informação em um tipo que cabe menos informação, como de double para int.
+
 ## Tipos 
 
 | Tipo      | Bytes    | Bits          | Valor  |
@@ -67,3 +75,10 @@ printf("Final points: %f!\n", points);
 | Long      | 8 bytes  | 64 bits       | 2^64   |
 | Float     | 4 bytes  | 32 bits       | 2^32   |
 | Double    | 8 bytes  | 64 bits       | 2^64   |
+
+## Funções
+
+**abs**: devolve o valor absoluto do número.
+**time**: devolve o número de segundos passados desde 01/01/1970 (data muito usada em programação para descobrir datas)
+**srand()**: alimenta a função rand com um número inicial.
+**rand**: 
