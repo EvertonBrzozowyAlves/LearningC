@@ -14,18 +14,39 @@ int main()
     int seconds = time(0);
     srand(seconds);
     int bigNumber = rand();
-
     int secretNumber = bigNumber % 100;
 
-    // printf("The secret number is %d, keep it secret!\n", secretNumber);
-    // int chances = 3;
     int guessNumber;
     int tries = 1;
     double points = 1000;
+    int guessed = 0;
 
-    // for (int i = 1; i <= NUMBER_OF_TRIES; i++)
+    int difficulty;
+    int chances;
 
-    while (1)
+    printf("Please choose a difficulty level:\n");
+    printf("(1) Easy\n");
+    printf("(2) Medium\n");
+    printf("(3) Hard\n\n");
+    scanf("%d", &difficulty);
+
+    switch (difficulty)
+    {
+    case 1:
+        chances = 20;
+        break;
+    case 2:
+        chances = 10;
+        break;
+    case 3:
+        chances = 5;
+        break;
+    default:
+        printf("Didn't choose a valid option. Will play on hard.\n");
+        chances = 5;
+    }
+
+    for (int i = 1; i <= tries; i++)
     {
         printf("This is yout try number: %d\n", tries); //%d to print int
         printf("Guess a number: ");
@@ -38,7 +59,7 @@ int main()
             continue;
         }
 
-        int guessed = (guessNumber == secretNumber); //0 => false, 1 => true
+        guessed = (guessNumber == secretNumber); //0 => false, 1 => true
         int greater = guessNumber > secretNumber;
 
         if (guessed)

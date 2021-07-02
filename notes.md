@@ -79,6 +79,10 @@ double value = (double)2;
 ## Funções
 
 **abs**: devolve o valor absoluto do número.
-**time**: devolve o número de segundos passados desde 01/01/1970 (data muito usada em programação para descobrir datas)
+**time**: devolve o número de segundos passados desde 01/01/1970 (data muito usada em programação para descobrir datas).
 **srand()**: alimenta a função rand com um número inicial.
-**rand**: 
+**rand**: gera um número 'aleatório'.
+
+## Strings
+
+Podemos utilizar barras duplas para escapar uma barra em string.
