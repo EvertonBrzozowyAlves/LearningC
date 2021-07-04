@@ -75,6 +75,25 @@ double value = (double)2;
 | Long      | 8 bytes  | 64 bits       | 2^64   |
 | Float     | 4 bytes  | 32 bits       | 2^32   |
 | Double    | 8 bytes  | 64 bits       | 2^64   |
+| char      | 1 byte   | 8 bits        |        |
+
+Em C não temos strings. Utilizamos array de chars.
+
+```c
+char secretWord[20];
+sprintf(secretWord, "WATERMELON");
+printf("%s\n", secretWord);
+```
+>para o printf saber quando parar, podemos atribuir um char '\0' depois de inserir o texto desejado no array.
+
+Podemos utilizar a estrutura do {...} while():
+
+```c
+do
+{
+    //code
+} while (!guessed && !hanged);
+```
 
 ## Funções
 
