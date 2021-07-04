@@ -95,6 +95,11 @@ do
 } while (!guessed && !hanged);
 ```
 
+Quando utilizar a função scanf para ler char do teclado, deixe um espaço, para indicar que não quer que a tecla enter seja considerada.  
+```c
+scanf(" %c", &letter);
+```
+
 ## Funções
 
 **abs**: devolve o valor absoluto do número.
@@ -105,3 +110,4 @@ do
 ## Strings
 
 Podemos utilizar barras duplas para escapar uma barra em string.
+
