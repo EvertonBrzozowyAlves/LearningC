@@ -1,6 +1,21 @@
 #include <stdio.h>
 #include <string.h>
 
+void welcomeMessage()
+{
+    printf("*************************************\n");
+    printf("*           HANGMAN GAME            *\n");
+    printf("*************************************\n");
+}
+
+void getNewLetter(char guesses[26], int *tries)
+{
+    char letter;
+    scanf(" %c", &letter);
+    guesses[*tries] = letter;
+    *tries++;
+}
+
 int main()
 {
     char secretWord[20];
@@ -8,6 +23,8 @@ int main()
 
     // secretWord[10] = '\0';
     // printf("%s\n", secretWord);
+
+    welcomeMessage();
 
     int guessed = 0;
     int hanged = 0;
@@ -40,12 +57,7 @@ int main()
         printf("\n");
 
         printf("Guess a letter:\n");
-
-        char letter;
-        scanf(" %c", &letter);
-
-        guesses[tries] = letter;
-        tries++;
+        getNewLetter(guesses, &tries);
 
     } while (!guessed && !hanged);
 }

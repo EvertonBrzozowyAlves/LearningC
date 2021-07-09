@@ -215,12 +215,48 @@ Podemos usar a mesma lógica usada para representar letras com binários para re
 
 ## Funções
 
-**abs**: devolve o valor absoluto do número.
-**time**: devolve o número de segundos passados desde 01/01/1970 (data muito usada em programação para descobrir datas).
-**srand()**: alimenta a função rand com um número inicial.
-**rand**: gera um número 'aleatório'.
+**abs**: devolve o valor absoluto do número.  
+**time**: devolve o número de segundos passados desde 01/01/1970 (data muito usada em programação para descobrir datas).  
+**srand()**: alimenta a função rand com um número inicial.  
+**rand**: gera um número 'aleatório'.  
 
-## Strings
+## Ponteiros
 
-Podemos utilizar barras duplas para escapar uma barra em string.
+Quando temos uma função que recebe por parâmetro um valor, e chamamos essa função passando uma variável, na verdade estamos passando o valor da variável e não a variável.  
+Isso significa que estamos criando dois espaços de memória no computador, um para a variável **a** e outro para a variável **n**, que contém a cópia desse valor.  
+As alterações que fizermos no valor da variável **a** no escopo da função, só existirão no escopo da função:  
+
+```C
+void calc(int n){
+    n++;
+    printf("%d\n", n); //1
+}
+
+int main() {
+    int a = 0;
+    calc(a);
+    printf("%d\n", a) //0
+}
+```
+
+Ao voltar para o fluxo anterior do programa, se tentarmos utilizar o valor da variável **a**, teremos o valor original, antes das alterações feitas na função **calc()**.  
+Isso já era esperado, visto que trata-se de uma cópia do valor. Note que mesmo que as variáveis tivéssem o mesmo nome, ainda assim seriam variáveis diferentes.  
+
+Caso queria que a função **calc()** altere o valor da variável **a** ao invés de criar uma cópia, deve-se passar o endereço da memória da variável **a**:
+
+```C
+void calc(int* n){ //ponteiro para endereço de memória que guarda um inteiro
+    *n++; //soma no valor que estiver dentro do endereço de memória, não no endereço
+    printf("%d\n", *n); //1
+}
+
+int main() {
+    int a = 0;
+    calc(&a);
+    printf("%d\n", a); //0
+}
+```
+
+Dessa forma, a varíavel **n** torna-se um **ponteiro** para um endereço de memória.  
+Se tentar usar a variável **n** diretamente sem o '*', obterá o endereço de memória daquele valor.  
 
