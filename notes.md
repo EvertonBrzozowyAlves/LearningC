@@ -66,17 +66,6 @@ double value = (double)2;
 ```
 >Em C, não há restrição e podemos transformar um tipo que cabe mais informação em um tipo que cabe menos informação, como de double para int.
 
-## Tipos 
-
-| Tipo      | Bytes    | Bits          | Valor  |
-| :-:       | :-:      | :-:           | :-:    |
-| Short     | 2 bytes  | 16 bits       | 2^16   |
-| Int       | 4 bytes  | 32 bits       | 2^32   |
-| Long      | 8 bytes  | 64 bits       | 2^64   |
-| Float     | 4 bytes  | 32 bits       | 2^32   |
-| Double    | 8 bytes  | 64 bits       | 2^64   |
-| char      | 1 byte   | 8 bits        |        |
-
 Em C não temos strings. Utilizamos array de chars.
 
 ```c
@@ -99,6 +88,45 @@ Quando utilizar a função scanf para ler char do teclado, deixe um espaço, par
 ```c
 scanf(" %c", &letter);
 ```
+
+## Bits, Bytes
+
+No computador, tudo é representado de maneira binária (0 ou 1 - sem energia, com energia - ligado, desligado).  
+Desse modo, os números não são representados de forma decimal mas sim de forma binária:  
+Em decimal, faríamos: 1, 2, 3 .. 9, 10.  
+Quando chegamos no 9, não temos mais um novo número para representar o dez. Dessa forma, utilizamos 1 e 0, números que já temos disponíveis, para fazer essa representação.  
+Em binários, só temos 0 e 1. Então, as representações ficam assim:  0, 1, 10, 11, 100.  
+
+| Decimal | Binário |
+| :-:     | :-:     |
+| 0       | 0       |
+| 1       | 1       |
+| 2       | 10      |
+| 3       | 11      |
+| 4       | 100     |
+
+Cada número binário representa um **bit**.  
+Um **byte** é um conjunto de 8 bits. Ou seja:  
+10000000 = 1 byte.  
+
+Foi optado por usar 8 bits para formar um byte pois, antigamente, os processadores apenas conseguiam guardar 8 bits em um espaço de memória.  
+Isso limitava as possbilidades a 256: 11111111 = 255 = 2^8.  As opções vão de 0 a 255.  
+
+
+
+
+
+## Tipos 
+
+| Tipo      | Bytes    | Bits          | Valor  |
+| :-:       | :-:      | :-:           | :-:    |
+| Short     | 2 bytes  | 16 bits       | 2^16   |
+| Int       | 4 bytes  | 32 bits       | 2^32   |
+| Long      | 8 bytes  | 64 bits       | 2^64   |
+| Float     | 4 bytes  | 32 bits       | 2^32   |
+| Double    | 8 bytes  | 64 bits       | 2^64   |
+| char      | 1 byte   | 8 bits        |        |
+
 
 ## Funções
 
