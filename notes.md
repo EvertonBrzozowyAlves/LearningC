@@ -235,7 +235,7 @@ void calc(int n){
 int main() {
     int a = 0;
     calc(a);
-    printf("%d\n", a) //0
+    printf("%d\n", a); //0
 }
 ```
 
@@ -260,3 +260,21 @@ int main() {
 Dessa forma, a varíavel **n** torna-se um **ponteiro** para um endereço de memória.  
 Se tentar usar a variável **n** diretamente sem o '*', obterá o endereço de memória daquele valor.  
 
+O array em C é um ponteiro por natureza, que guarda os elementos um do lado do outro na memória. Pense em um array como sendo um ponteiro para o primeiro elemento.  
+Por exemplo: Se estamos usando um array de char, o char ocupa 1 byte de memória. Então, os valores são alocados em espaços sequenciais: 14567894100, 14567894101, 14567894102, 14567894103.  
+Ao tentar acessar o valor da variável, a linguagem faz uma conta, dependendo do tipo de dados do array, para acessar a posição na memória que guardará aquele valor.  
+
+```C
+char anArray[10];
+sprintf(anArray, "HELLO");
+printf("%d\n", &anArray[0]); //será impresso um endereço de memória, ex.: 14567894100
+printf("%d\n", anArray); //será impresso o mesmo endereço de memória da primeira posição do elemento, ex.: 14567894100
+printf("%d %d %d %d\n", anArray[0], anArray[1], anArray[2], anArray[3]); //será impresso o endereço de memória de cada elemento, ex.: 14567894100, 14567894101, 14567894102, 14567894103
+```
+> Note que no exemplo acima, o valor do endereço de memória foi incrementado de 1 em 1, pois o array guarda os elementos em espaços sequenciais na memória e o char só ocupa 1 byte.  
+> Se fosse um array de int, por exemplo, que ocupa 4 bytes, os endereços seriam: 14567894100, 14567894104, 14567894108...  
+
+## Variáveis globias
+
+São as variáveis declaradas fora do escopo das funções, ficando disponveís para utilização em todas as funções.  
+Normalmente as declaramos logo depois dos imports.  

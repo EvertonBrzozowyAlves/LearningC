@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 
+char secretWord[20];
+char guesses[26];
+int tries = 0;
+
 void welcomeMessage()
 {
     printf("*************************************\n");
@@ -8,56 +12,63 @@ void welcomeMessage()
     printf("*************************************\n");
 }
 
-void getNewLetter(char guesses[26], int *tries)
+void getNewLetter()
 {
     char letter;
     scanf(" %c", &letter);
-    guesses[*tries] = letter;
-    *tries++;
+    guesses[tries] = letter;
+    tries++;
+}
+
+int isLetterAlreadyTried(char letter)
+{
+    int found = 0;
+    for (int i = 0; i < tries; i++)
+    {
+        if (guesses[i] == letter)
+        {
+            found = 1;
+            break;
+        }
+    }
+    return found;
+}
+
+void drawGallows()
+{
+    for (int i = 0; i < strlen(secretWord); i++)
+    {
+        int found = isLetterAlreadyTried(secretWord[i]);
+        if (found)
+        {
+            printf("%c ", secretWord[i]);
+        }
+        else
+        {
+            printf("_ ");
+        }
+    }
+    printf("\n");
+}
+
+void chooseSecretWord()
+{
+    sprintf(secretWord, "WATERMELON");
 }
 
 int main()
 {
-    char secretWord[20];
-    sprintf(secretWord, "WATERMELON");
-
-    // secretWord[10] = '\0';
-    // printf("%s\n", secretWord);
-
-    welcomeMessage();
-
     int guessed = 0;
     int hanged = 0;
 
-    char guesses[26];
-    int tries = 0;
+    chooseSecretWord();
+    welcomeMessage();
 
     do
     {
-        for (int i = 0; i < strlen(secretWord); i++)
-        {
-            int found = 0;
-            for (int j = 0; j < tries; j++)
-            {
-                if (guesses[j] == secretWord[i])
-                {
-                    found = 1;
-                    break;
-                }
-            }
-            if (found)
-            {
-                printf("%c ", secretWord[i]);
-            }
-            else
-            {
-                printf("_ ");
-            }
-        }
-        printf("\n");
-
+        drawGallows();
         printf("Guess a letter:\n");
-        getNewLetter(guesses, &tries);
+        getNewLetter();
 
     } while (!guessed && !hanged);
 }
