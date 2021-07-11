@@ -278,3 +278,36 @@ printf("%d %d %d %d\n", anArray[0], anArray[1], anArray[2], anArray[3]); //será
 
 São as variáveis declaradas fora do escopo das funções, ficando disponveís para utilização em todas as funções.  
 Normalmente as declaramos logo depois dos imports.  
+
+## Declarar funções
+
+O compilador da linguagem C lê os arquivos de cima para baixo. Se em algum momento ele não encontrar alguma função já declarada, é gerado um erro de compilação.  
+Desse modo, as funções devem ser organizadas para que estejam em ordem de aparição.  
+Caso queria evitar essa organização das funções, uma alterativa é declarar todas as funções que serão listadas no arquivo. Dessa forma, não é gerado erro:  
+
+```C
+#include <stdio.h>
+
+//functions
+void printWelcomeMessage();
+int sayHelloTo(char name[30]);
+```
+>Por convenção deixamos a função main como a última função do arquivo.  
+
+Por ser uma prática muito comum, o ideal é criarmos um header file para essas declarações.  
+Um Header file é um arquivo que criamos com a extensão .h, que contém, geralmente, as declarações de funções que iremos utilizar em nosso arquivo.  
+Isso facilita a importação e reduz o arquivo atual.  
+
+- Arquivo *.h:
+
+```H
+//functions
+void printWelcomeMessage();
+int sayHelloTo(char name[30]);
+```
+
+- Arquivo *.c:
+
+```C
+#include "*.h"
+```
