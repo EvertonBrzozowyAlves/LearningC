@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <string.h>
+#include "functions.h"
 
+//global variables
 char secretWord[20];
 char guesses[26];
 int tries = 0;
+const int CHANCES = 5;
 
-void welcomeMessage()
+void printWelcomeMessage()
 {
     printf("*************************************\n");
     printf("*           HANGMAN GAME            *\n");
@@ -53,16 +56,61 @@ void drawGallows()
 
 void chooseSecretWord()
 {
-    sprintf(secretWord, "WATERMELON");
+    FILE *f;
+    f = fopen("words.txt", "r");
+
+    int wordsQuantity;
+    fscanf(f, "%d", wordsQuantity); //read the first thing in file
+
+    srand(time(0));
+    int random = rand() % wordsQuantity;
+
+    for (int i = 0; i < random; i++)
+    {
+        //TODO: follow
+    }
+
+    fclose(f);
+}
+
+int hanged()
+{
+    int errors = 0;
+    for (int i = 0; i < tries; i++)
+    {
+        int exists = 0;
+        for (int j = 0; j < strlen(secretWord); j++)
+        {
+            if (guesses[i] == secretWord[j])
+            {
+                exists = 1;
+                break;
+            }
+        }
+        if (!exists)
+        {
+            errors++;
+        }
+    }
+    return errors >= CHANCES;
+}
+
+int guessed()
+{
+    for (int i = 0; i < strlen(secretWord); i++)
+    {
+        if (!isLetterAlreadyTried(secretWord[i]))
+        {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 int main()
 {
-    int guessed = 0;
-    int hanged = 0;
-
     chooseSecretWord();
-    welcomeMessage();
+    printWelcomeMessage();
 
     do
     {
@@ -70,5 +118,5 @@ int main()
         printf("Guess a letter:\n");
         getNewLetter();
 
-    } while (!guessed && !hanged);
+    } while (!guessed() && !hanged());
 }
