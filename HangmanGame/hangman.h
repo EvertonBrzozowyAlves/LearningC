@@ -1,3 +1,6 @@
+//constants
+#define WORD_LENGTH 20
+
 //functions
 void printWelcomeMessage();
 void getNewLetter();
@@ -6,3 +9,5 @@ void drawGallows();
 void chooseSecretWord();
 int hanged();
 int guessed();
+void askToAddNewWord();
+int getErrorsCount();

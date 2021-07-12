@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <string.h>
-#include "functions.h"
+#include <time.h>
+#include <stdlib.h>
+#include "hangman.h"
 
 //global variables
-char secretWord[20];
+char secretWord[WORD_LENGTH];
 char guesses[26];
 int tries = 0;
 const int CHANCES = 5;
@@ -39,6 +41,18 @@ int isLetterAlreadyTried(char letter)
 
 void drawGallows()
 {
+    int errors = getErrorsCount();
+
+    printf("  _______      \n");
+    printf(" |/      |     \n");
+    printf(" |      %c%c%c \n", errors >= 1 ? '(' : ' ', errors >= 1 ? '_' : ' ', errors >= 1 ? ')' : ' ');
+    printf(" |      %c%c%c \n", errors >= 3 ? '\\' : ' ', errors >= 2 ? '|' : ' ', errors >= 3 ? '/' : ' ');
+    printf(" |       %c    \n", errors >= 4 ? '|' : ' ');
+    printf(" |      %c %c  \n", errors >= 5 ? '/' : ' ', errors >= 5 ? '\\' : ' ');
+    printf(" |             \n");
+    printf("_|___          \n");
+    printf("\n\n");
+
     for (int i = 0; i < strlen(secretWord); i++)
     {
         int found = isLetterAlreadyTried(secretWord[i]);
@@ -58,22 +72,27 @@ void chooseSecretWord()
 {
     FILE *f;
     f = fopen("words.txt", "r");
+    if (f == 0)
+    {
+        printf("Error while starting the game.\n\n");
+        exit(1);
+    }
 
     int wordsQuantity;
-    fscanf(f, "%d", wordsQuantity); //read the first thing in file
+    fscanf(f, "%d", &wordsQuantity); //read the first thing in file
 
     srand(time(0));
     int random = rand() % wordsQuantity;
 
     for (int i = 0; i < random; i++)
     {
-        //TODO: follow
+        fscanf(f, "%s", secretWord);
     }
 
     fclose(f);
 }
 
-int hanged()
+int getErrorsCount()
 {
     int errors = 0;
     for (int i = 0; i < tries; i++)
@@ -92,7 +111,12 @@ int hanged()
             errors++;
         }
     }
-    return errors >= CHANCES;
+    return errors;
+}
+
+int hanged()
+{
+    return getErrorsCount() >= CHANCES;
 }
 
 int guessed()
@@ -107,6 +131,42 @@ int guessed()
     return 1;
 }
 
+void askToAddNewWord()
+{
+    printf("Do you want to add a new word to the game? (Y/N) ");
+
+    char response;
+    scanf(" %c", &response);
+
+    if (response == 'Y')
+    {
+        printf("What's the word? ");
+
+        char newWord[WORD_LENGTH];
+        scanf("%s", newWord);
+
+        FILE *f;
+        f = fopen("words.txt", "r+"); //read and write
+
+        if (f == 0)
+        {
+            printf("Error while starting the game.\n\n");
+            exit(1);
+        }
+        int quantity;
+        fscanf(f, "%d", &quantity);
+        quantity++;
+
+        fseek(f, 0, SEEK_SET); //set the reader to the beginning of the file
+        fprintf(f, "%d", quantity);
+
+        fseek(f, 0, SEEK_END);
+        fprintf(f, "\n%s", newWord);
+
+        fclose(f);
+    }
+}
+
 int main()
 {
     chooseSecretWord();
@@ -119,4 +179,15 @@ int main()
         getNewLetter();
 
     } while (!guessed() && !hanged());
+
+    if (guessed())
+    {
+        printf("Congratulations!! You've beat the game!\n");
+    }
+    else
+    {
+        printf("That's sad, you loose!! Try again!\n");
+    }
+
+    askToAddNewWord();
 }
