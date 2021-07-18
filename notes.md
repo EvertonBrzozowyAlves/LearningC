@@ -311,3 +311,58 @@ int sayHelloTo(char name[30]);
 ```C
 #include "*.h"
 ```
+
+## Matrizes
+
+Matrizes são arrays bidimensionais.  
+Podemos declarar uma matriz da seguinte forma:
+
+```C
+char map[5][10]; //declarando
+
+map[0][0] = '|'; //populando ponto específico
+
+```
+
+Nesse caso, teremos uma matriz de 5 x 10 posições.
+Sempre ao acessar o primeiro índice da matriz, teremos acesso a um outro array, podendo populá-lo:
+
+```C
+char map[5][10]; //declarando
+
+FILE *f;
+f = fopen("map.txt", "r");
+
+for (int i = 0; i < 5; i++)
+{
+    fscanf(f, "%s", map[i]);
+}
+```
+
+Uma matriz é um ponteiro que aponta para outros ponteiros (arrays).  
+A declaração para copiar uma matriz deve conter **.
+
+```C
+int numeros[5][10];
+
+// o ponteiro copia é idêntico ao ponteiro numeros. Ambos apontam para uma lista de ponteiros de inteiros
+int** copia = numeros;
+
+// as duas operações abaixo são idênticas
+numeros[0][0] = 10;
+copia[0][0] = 10;
+```
+>O tamanho máximo de uma matriz é 200x200.
+
+## Alocação dinâmica de memória
+
+Quando precisamos alocar espaço de memória em tempo de execução, podemos usar essa técnica.  
+Iremos reservar um espaço de memória para depois liberá-lo:
+
+```C
+int* v = malloc(sizeof(int)); //aloca os bytes necessários para guardar um int, independente da plataforma
+*v = 10; //atribui o valor
+printf("Valor alocado: %d\n", *v); //utilizando
+free(v); //liberando memória alocada
+```
+
