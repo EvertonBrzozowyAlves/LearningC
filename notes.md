@@ -210,7 +210,7 @@ Podemos usar a mesma lógica usada para representar letras com binários para re
 | Long      | 8 bytes  | 64 bits       | 2^64   |
 | Float     | 4 bytes  | 32 bits       | 2^32   |
 | Double    | 8 bytes  | 64 bits       | 2^64   |
-| char      | 1 byte   | 8 bits        |        |
+| char      | 1 byte   | 8 bits        | 2^8    |
 
 
 ## Funções
@@ -225,7 +225,6 @@ Podemos usar a mesma lógica usada para representar letras com binários para re
 Quando temos uma função que recebe por parâmetro um valor, e chamamos essa função passando uma variável, na verdade estamos passando o valor da variável e não a variável.  
 Isso significa que estamos criando dois espaços de memória no computador, um para a variável **a** e outro para a variável **n**, que contém a cópia desse valor.  
 As alterações que fizermos no valor da variável **a** no escopo da função, só existirão no escopo da função:  
-
 ```C
 void calc(int n){
     n++;
@@ -243,7 +242,6 @@ Ao voltar para o fluxo anterior do programa, se tentarmos utilizar o valor da va
 Isso já era esperado, visto que trata-se de uma cópia do valor. Note que mesmo que as variáveis tivéssem o mesmo nome, ainda assim seriam variáveis diferentes.  
 
 Caso queria que a função **calc()** altere o valor da variável **a** ao invés de criar uma cópia, deve-se passar o endereço da memória da variável **a**:
-
 ```C
 void calc(int* n){ //ponteiro para endereço de memória que guarda um inteiro
     *n++; //soma no valor que estiver dentro do endereço de memória, não no endereço
@@ -263,7 +261,6 @@ Se tentar usar a variável **n** diretamente sem o '*', obterá o endereço de m
 O array em C é um ponteiro por natureza, que guarda os elementos um do lado do outro na memória. Pense em um array como sendo um ponteiro para o primeiro elemento.  
 Por exemplo: Se estamos usando um array de char, o char ocupa 1 byte de memória. Então, os valores são alocados em espaços sequenciais: 14567894100, 14567894101, 14567894102, 14567894103.  
 Ao tentar acessar o valor da variável, a linguagem faz uma conta, dependendo do tipo de dados do array, para acessar a posição na memória que guardará aquele valor.  
-
 ```C
 char anArray[10];
 sprintf(anArray, "HELLO");
@@ -284,7 +281,6 @@ Normalmente as declaramos logo depois dos imports.
 O compilador da linguagem C lê os arquivos de cima para baixo. Se em algum momento ele não encontrar alguma função já declarada, é gerado um erro de compilação.  
 Desse modo, as funções devem ser organizadas para que estejam em ordem de aparição.  
 Caso queria evitar essa organização das funções, uma alterativa é declarar todas as funções que serão listadas no arquivo. Dessa forma, não é gerado erro:  
-
 ```C
 #include <stdio.h>
 
@@ -299,7 +295,6 @@ Um Header file é um arquivo que criamos com a extensão .h, que contém, geralm
 Isso facilita a importação e reduz o arquivo atual.  
 
 - Arquivo *.h:
-
 ```H
 //functions
 void printWelcomeMessage();
@@ -307,7 +302,6 @@ int sayHelloTo(char name[30]);
 ```
 
 - Arquivo *.c:
-
 ```C
 #include "*.h"
 ```
@@ -316,7 +310,6 @@ int sayHelloTo(char name[30]);
 
 Matrizes são arrays bidimensionais.  
 Podemos declarar uma matriz da seguinte forma:
-
 ```C
 char map[5][10]; //declarando
 
@@ -326,7 +319,6 @@ map[0][0] = '|'; //populando ponto específico
 
 Nesse caso, teremos uma matriz de 5 x 10 posições.
 Sempre ao acessar o primeiro índice da matriz, teremos acesso a um outro array, podendo populá-lo:
-
 ```C
 char map[5][10]; //declarando
 
@@ -341,7 +333,6 @@ for (int i = 0; i < 5; i++)
 
 Uma matriz é um ponteiro que aponta para outros ponteiros (arrays).  
 A declaração para copiar uma matriz deve conter **.
-
 ```C
 int numeros[5][10];
 
@@ -358,7 +349,6 @@ copia[0][0] = 10;
 
 Quando precisamos alocar espaço de memória em tempo de execução, podemos usar essa técnica.  
 Iremos reservar um espaço de memória para depois liberá-lo:
-
 ```C
 int* v = malloc(sizeof(int)); //aloca os bytes necessários para guardar um int, independente da plataforma
 *v = 10; //atribui o valor
@@ -366,3 +356,64 @@ printf("Valor alocado: %d\n", *v); //utilizando
 free(v); //liberando memória alocada
 ```
 
+## Structs
+
+Podemos criar structs, que são como micro classes.  
+Usamos structs para agrupar variáveis.  
+```C
+//declaração
+struct map
+{
+    char **matrix;
+    int rows;
+    int columns;
+};
+//inicialização
+struct map m;
+m.rows = 10;
+m.columns = 10;
+```
+
+Podemos dar um apelido para a definição da struct e simplificar sua inicialização:
+```C
+//declaração
+struct map
+{
+    char **matrix;
+    int rows;
+    int columns;
+};
+typedef struct map MAP; //typedef!
+
+//inicialização
+MAP m;
+m.rows = 10;
+m.columns = 10;
+```
+
+Sempre que temos uma struct e quisermos acessar o ponteiro de uma propriedade, podemos utilizar o atalho abaixo:
+```C
+for (int i = 0; i < m->rows; i++) // m->rows == *m.rows
+{
+    //...
+}
+```
+
+## Segregando código
+
+A medida que o código vai crescendo, é uma boa prática dividí-lo em mais de um arquivo.  
+Isso facilita a manutenção.  
+
+Devemos fazer os devidos imports em cada arquivo. Passamos as variáveis declaradas em um arquivo para outro como ponteiros ou redeclará-la como extern no outro arquivo:  
+```C
+//Arquivo1.c
+int n;
+
+//Arquivo2.c
+external int n;
+```
+Para compilar, passamos todos os arquivos com extensão .c e o arquivo de saída:
+
+```bash
+ gcc file1.c file2.c -o file.out
+```

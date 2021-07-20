@@ -1,57 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "eat-it.h"
+#include "map.h"
 
-char **map;
-int rows;
-int columns;
-
-void readMap()
-{
-    FILE *f;
-    f = fopen("map.txt", "r");
-    if (f == 0)
-    {
-        printf("Error while starting the game.\n\n");
-        exit(1);
-    }
-
-    fscanf(f, "%d %d", &rows, &columns);
-
-    allocateMap();
-
-    for (int i = 0; i < 5; i++)
-    {
-        fscanf(f, "%s", map[i]);
-    }
-    fclose(f);
-}
-
-void allocateMap()
-{
-    map = malloc(sizeof(char *) * rows); //dynamic allocation
-    for (int i = 0; i < rows; i++)
-    {
-        map[i] = malloc(sizeof(char) * (columns) + 1);
-    }
-}
-
-void printMap()
-{
-    for (int i = 0; i < 5; i++)
-    {
-        printf("%s\n", map[i]);
-    }
-}
-
-void freeMapMemory()
-{
-    for (int i = 0; i < rows; i++) //freeing the memory allocated
-    {
-        free(map[i]);
-    }
-    free(map);
-}
+MAP map;
+POSITION heroPosition;
 
 int gameIsFinished()
 {
@@ -60,46 +13,36 @@ int gameIsFinished()
 
 void move(char direction)
 {
-    int x, y;
-    for (int i = 0; i < rows; i++)
-    {
-        for (int j = 0; j < columns; j++)
-        {
-            if (map[i][j] == '@')
-            {
-                x = i;
-                y = j;
-                break;
-            }
-        }
-    }
+    map.matrix[heroPosition.x][heroPosition.y] = '.';
 
     switch (direction)
     {
     case 'a':
-        map[x][y - 1] = '@';
+        map.matrix[heroPosition.x][heroPosition.y - 1] = '@';
+        heroPosition.y--;
         break;
     case 'w':
-        map[x - 1][y] = '@';
+        map.matrix[heroPosition.x - 1][heroPosition.y] = '@';
+        heroPosition.x--;
         break;
     case 's':
-        map[x + 1][y] = '@';
+        map.matrix[heroPosition.x + 1][heroPosition.y] = '@';
+        heroPosition.x++;
         break;
     case 'd':
-        map[x][y + 1] = '@';
+        map.matrix[heroPosition.x][heroPosition.y + 1] = '@';
+        heroPosition.y++;
         break;
     }
-
-    map[x][y] = '.';
 }
 
 int main(void)
 {
-    readMap();
-
+    readMap(&map);
+    findHeroPositionOnMap(&map, &heroPosition, '@');
     do
     {
-        printMap();
+        printMap(&map);
 
         char command;
         scanf(" %c", &command);
@@ -107,5 +50,5 @@ int main(void)
 
     } while (!gameIsFinished());
 
-    freeMapMemory();
+    freeMapMemory(&map);
 }
