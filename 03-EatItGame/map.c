@@ -64,3 +64,20 @@ void printMap(MAP *map)
         printf("%s\n", map->matrix[i]);
     }
 }
+
+int isValidPosition(MAP *map, int x, int y)
+{
+    return x >= map->rows && y >= map->columns;
+}
+
+int isEmptyPosition(MAP *map, int x, int y)
+{
+    return map->matrix[x][y] == EMPTY_SPACE;
+}
+
+void moveOnMap(MAP *map, int originX, int originY, int destinyX, int destinyY)
+{
+    char actor = map->matrix[originX][originY];
+    map->matrix[destinyX][destinyY] = actor;
+    map->matrix[originX][originY] = EMPTY_SPACE;
+}

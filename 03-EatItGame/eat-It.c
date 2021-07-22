@@ -11,35 +11,56 @@ int gameIsFinished()
     return 0; //TODO: finish this function
 }
 
+int isValidDirection(char direction)
+{
+    return direction == UP || direction == LEFT || direction == DOWN || direction == RIGHT;
+}
+
 void move(char direction)
 {
-    map.matrix[heroPosition.x][heroPosition.y] = '.';
+    if (!isValidDirection(direction))
+    {
+        return; //it's possible to have an if without brackets, for a simple line
+    }
+
+    int nextX = heroPosition.x;
+    int nextY = heroPosition.y;
 
     switch (direction)
     {
-    case 'a':
-        map.matrix[heroPosition.x][heroPosition.y - 1] = '@';
-        heroPosition.y--;
+    case UP:
+        nextX--;
         break;
-    case 'w':
-        map.matrix[heroPosition.x - 1][heroPosition.y] = '@';
-        heroPosition.x--;
+    case LEFT:
+        nextY--;
         break;
-    case 's':
-        map.matrix[heroPosition.x + 1][heroPosition.y] = '@';
-        heroPosition.x++;
+    case DOWN:
+        nextX++;
         break;
-    case 'd':
-        map.matrix[heroPosition.x][heroPosition.y + 1] = '@';
-        heroPosition.y++;
+    case RIGHT:
+        nextY++;
         break;
     }
+
+    if (!isValidPosition(&map, nextX, nextY))
+    {
+        return;
+    }
+
+    if (!isEmptyPosition(&map, nextX, nextY))
+    {
+        return;
+    }
+
+    moveOnMap(&map, heroPosition.x, heroPosition.y, nextX, nextY);
+    heroPosition.x = nextX;
+    heroPosition.y = nextY;
 }
 
 int main(void)
 {
     readMap(&map);
-    findHeroPositionOnMap(&map, &heroPosition, '@');
+    findHeroPositionOnMap(&map, &heroPosition, HERO);
     do
     {
         printMap(&map);
