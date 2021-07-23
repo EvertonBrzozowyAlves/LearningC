@@ -1,14 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "eat-it.h"
 #include "map.h"
 
 MAP map;
 POSITION heroPosition;
 
+int getNextPhantomPosition(int currentX, int currentY, int *destinyX, int *destinyY)
+{
+    int options[4][2] = //4 possible options, 2 numbers per option
+        {{currentX - 1, currentY},
+         {currentX + 1, currentY},
+         {currentX, currentY - 1},
+         {currentX, currentY + 1}};
+
+    srand(time(0));
+    for (int i = 0; i < 10; i++)
+    {
+        int position = rand() % 4;
+        if (canWalkOnMap(&map, options[position][0], options[position][1]))
+        {
+            *destinyX = options[position][0];
+            *destinyY = options[position][1];
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void movePhantoms()
+{
+    MAP copy;
+    copyMap(&map, &copy);
+
+    for (int i = 0; i < map.rows; i++)
+    {
+        for (int j = 0; j < map.columns; j++)
+        {
+            if (copy.matrix[i][j] == PHANTOM)
+            {
+                int destinyX, destinyY;
+                int foundNextPhantomPosition = getNextPhantomPosition(i, j, &destinyX, &destinyY);
+
+                if (foundNextPhantomPosition)
+                {
+                    moveOnMap(&map, i, j, destinyX, destinyY);
+                }
+            }
+        }
+    }
+    freeMapMemory(&copy);
+}
+
 int gameIsFinished()
 {
-    return 0; //TODO: finish this function
+    POSITION pos;
+    int foundHeroPosition = findActorPositionOnMap(&map, &pos, HERO);
+    return !foundHeroPosition;
 }
 
 int isValidDirection(char direction)
@@ -16,7 +65,7 @@ int isValidDirection(char direction)
     return direction == UP || direction == LEFT || direction == DOWN || direction == RIGHT;
 }
 
-void move(char direction)
+void moveHero(char direction)
 {
     if (!isValidDirection(direction))
     {
@@ -60,14 +109,14 @@ void move(char direction)
 int main(void)
 {
     readMap(&map);
-    findHeroPositionOnMap(&map, &heroPosition, HERO);
+    findActorPositionOnMap(&map, &heroPosition, HERO);
     do
     {
         printMap(&map);
 
         char command;
         scanf(" %c", &command);
-        move(command);
+        moveHero(command);
 
     } while (!gameIsFinished());
 

@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "map.h"
 
-void findHeroPositionOnMap(MAP *map, POSITION *position, char characterToSearch)
+int findActorPositionOnMap(MAP *map, POSITION *position, char characterToSearch)
 {
     for (int i = 0; i < map->rows; i++)
     {
@@ -12,10 +13,21 @@ void findHeroPositionOnMap(MAP *map, POSITION *position, char characterToSearch)
             {
                 position->x = i;
                 position->y = j;
-                break;
+                return 1;
             }
         }
     }
+    return 0;
+}
+
+int isPositionAWall(MAP *map, int x, int y)
+{
+    return map->matrix[x][y] == VERTICAL_LIMIT || map->matrix[x][y] == HORIZONTAL_LIMIT;
+}
+
+int isPositionSameActor(MAP *map, char actor, int x, int y)
+{
+    return map->matrix[x][y] == actor;
 }
 
 void freeMapMemory(MAP *map)
@@ -80,4 +92,21 @@ void moveOnMap(MAP *map, int originX, int originY, int destinyX, int destinyY)
     char actor = map->matrix[originX][originY];
     map->matrix[destinyX][destinyY] = actor;
     map->matrix[originX][originY] = EMPTY_SPACE;
+}
+
+void copyMap(MAP *destiny, MAP *origin)
+{
+    destiny->rows = origin->rows;
+    destiny->columns = origin->columns;
+    allocateMap(destiny);
+    for (int i = 0; i < origin->rows; i++)
+    {
+        strcpy(destiny->matrix[i], origin->matrix[i]);
+    }
+}
+
+int canWalkOnMap(MAP *map, int x, int y)
+{
+    //check if is necessary to receive the actor as argument
+    return isValidPosition(map, x, y) && isEmptyPosition(map, x, y) && !isPositionAWall(map, x, y) && !isPositionSameActor(map, HERO, x, y);
 }

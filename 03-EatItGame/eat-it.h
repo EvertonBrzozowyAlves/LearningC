@@ -4,5 +4,6 @@
 #define RIGHT 'd'
 
 int gameIsFinished();
-void move(char direction);
+void moveHero(char direction);
 int isValidDirection(char direction);
+int getNextPhantomPosition(int currentX, int currentY, int *destinyX, int *destinyY);

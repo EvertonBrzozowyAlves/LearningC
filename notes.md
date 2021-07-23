@@ -47,7 +47,7 @@ int main(){
 }
 ```
 
-Em C, o compilador não gera erro ao utilizar uma variável que não foi utilizada.  
+Em C, o compilador não gera erro ao utilizar uma variável que não foi inicializada.  
 Sempre utilize variáveis inicializadas com valor.  
 Quando se utiliza uma variável que não foi inicializada, não sabemos qual valor conterá nela.  
 Isso depende um pouco do compilador utilizado.  
@@ -219,6 +219,25 @@ Podemos usar a mesma lógica usada para representar letras com binários para re
 **time**: devolve o número de segundos passados desde 01/01/1970 (data muito usada em programação para descobrir datas).  
 **srand()**: alimenta a função rand com um número inicial.  
 **rand**: gera um número 'aleatório'.  
+**memcpy()**: Podemos utilizar para copiar variáveis mais complexas, como structs, sem copiar propriedade por propriedade:  
+```C
+struct contato {
+    char nome[20];
+    char email[50];
+};
+
+typedef struct contato CONTATO;
+
+int main() {
+    CONTATO pessoa;
+    strcpy(pessoa.nome, "Nome Pessoa");
+    strcpy(pessoa.email, "meu@email.com");
+}
+//no momento da cópia
+
+CONTATO pessoa;
+memcpy(&pessoa, &outraPessoa, sizeof(CONTATO));
+```
 
 ## Ponteiros
 
