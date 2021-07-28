@@ -25,7 +25,7 @@ int isPositionAWall(MAP *map, int x, int y)
     return map->matrix[x][y] == VERTICAL_LIMIT || map->matrix[x][y] == HORIZONTAL_LIMIT;
 }
 
-int isPositionSameActor(MAP *map, char actor, int x, int y)
+int isPositionThisActor(MAP *map, char actor, int x, int y)
 {
     return map->matrix[x][y] == actor;
 }
@@ -108,5 +108,5 @@ void copyMap(MAP *destiny, MAP *origin)
 int canWalkOnMap(MAP *map, int x, int y)
 {
     //check if is necessary to receive the actor as argument
-    return isValidPosition(map, x, y) && isEmptyPosition(map, x, y) && !isPositionAWall(map, x, y) && !isPositionSameActor(map, HERO, x, y);
+    return isValidPosition(map, x, y) && isEmptyPosition(map, x, y) && !isPositionAWall(map, x, y) && !isPositionThisActor(map, HERO, x, y);
 }

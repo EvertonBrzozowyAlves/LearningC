@@ -436,3 +436,16 @@ Para compilar, passamos todos os arquivos com extensão .c e o arquivo de saída
 ```bash
  gcc file1.c file2.c -o file.out
 ```
+
+## Diretivas de compilação
+
+Podemos utilizar algumas diretivas de compilação nos arquivos .h para evitar que sejam importados mais de uma vez:
+
+```C
+#ifndef _NAME_H_
+#define _NAME_H_
+
+//code
+
+#endif
+```

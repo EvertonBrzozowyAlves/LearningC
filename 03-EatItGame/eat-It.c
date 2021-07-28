@@ -6,6 +6,45 @@
 
 MAP map;
 POSITION heroPosition;
+int heroHasPill;
+
+void chooseDirectionToExplodePill()
+{
+    if (!heroHasPill)
+    {
+        return;
+    }
+
+    explodePill(heroPosition.x, heroPosition.y, 0, 1, 3);
+    explodePill(heroPosition.x, heroPosition.y, 0, -1, 3);
+    explodePill(heroPosition.x, heroPosition.y, 1, 0, 3);
+    explodePill(heroPosition.x, heroPosition.y, -1, 0, 3);
+
+    heroHasPill = 0;
+}
+
+void explodePill(int x, int y, int sumOnX, int sumOnY, int times)
+{
+    if (times == 0)
+    {
+        return;
+    }
+
+    int newX = x + sumOnX;
+    int newY = y + sumOnY;
+
+    if (!isValidPosition(&map, newX, newY))
+    {
+        return;
+    }
+    if (isPositionAWall(&map, newX, newY))
+    {
+        return;
+    }
+
+    map.matrix[newX][newY] = EMPTY_SPACE;
+    explodePill(newX, newY, sumOnX, sumOnY, times - 1);
+}
 
 int getNextPhantomPosition(int currentX, int currentY, int *destinyX, int *destinyY)
 {
@@ -91,17 +130,18 @@ void moveHero(char direction)
         break;
     }
 
-    if (!isValidPosition(&map, nextX, nextY))
+    if (!canWalkOnMap(&map, nextX, nextY))
     {
         return;
     }
 
-    if (!isEmptyPosition(&map, nextX, nextY))
+    if (isPositionThisActor(&map, PILL, nextX, nextY))
     {
-        return;
+        heroHasPill = 1;
     }
 
     moveOnMap(&map, heroPosition.x, heroPosition.y, nextX, nextY);
+
     heroPosition.x = nextX;
     heroPosition.y = nextY;
 }
@@ -117,6 +157,13 @@ int main(void)
         char command;
         scanf(" %c", &command);
         moveHero(command);
+
+        if (command == BOMB)
+        {
+            chooseDirectionToExplodePill();
+        }
+
+        movePhantoms();
 
     } while (!gameIsFinished());
 

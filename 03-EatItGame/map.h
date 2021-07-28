@@ -1,5 +1,6 @@
 #define HERO '@'
 #define PHANTOM 'F'
+#define PILL 'P'
 #define EMPTY_SPACE '.'
 #define VERTICAL_LIMIT '|'
 #define HORIZONTAL_LIMIT '-'
@@ -30,4 +31,4 @@ void moveOnMap(MAP *map, int originX, int originY, int destinyX, int destinyY);
 void copyMap(MAP *destiny, MAP *origin);
 int canWalkOnMap(MAP *map, int x, int y);
 int isPositionAWall(MAP *map, int x, int y);
-int isPositionSameActor(MAP *map, char actor, int x, int y);
+int isPositionThisActor(MAP *map, char actor, int x, int y);
